@@ -1,15 +1,14 @@
-var bar = Rx.Observable.create(function(observer) {
-  try {
-    observer.next("foo");
-    observer.next("baz");
-    setInterval(function() {
-      observer.next("bar");
-      observer.complete();
-    }, 3000);
-  } catch (error) {
-    observer.error(error);
-  }
-});
+// var addEventHandler = function(handler) {
+//   document.addEventListener("click", handler);
+// };
+
+// var removeEventHandler = function(handler) {
+//   document.addEventListener("click", handler);
+// };
+
+// var bar = Rx.Observable.fromEventPattern(addEventHandler, removeEventHandler);
+
+var bar = Rx.Observable.fromEvent(document, "click");
 
 bar.subscribe(
   function nextValue(value) {
