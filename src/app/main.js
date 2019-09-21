@@ -1,14 +1,11 @@
-// var bar = Rx.Observable.fromPromise(
-//   fetch("https://jsonplaceholder.typicode.com/todos")
-// );
+// Rx.Observable.interval(period);
+// var bar = Rx.Observable.interval(300);
 
-// fetch api reference at https://scotch.io/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
-
-var bar = Rx.Observable.from(
-  fetch("https://jsonplaceholder.typicode.com/todos").then(function(result) {
-    return result.json();
-  })
-);
+// Rx.Observable.timer(startTime as number, period);
+// Rx.Observable.timer(startTime as date, period);
+// var bar = Rx.Observable.timer(4000, 300);
+var date = new Date(new Date().getTime() + 4000);
+var bar = Rx.Observable.timer(date, 300);
 
 bar.subscribe(
   function nextValue(value) {
