@@ -1,15 +1,5 @@
-var bar = Rx.Observable.create(function(observer) {
-  try {
-    observer.next("foo");
-    observer.next("baz");
-    setInterval(function() {
-      observer.next("bar");
-      observer.complete();
-    }, 3000);
-  } catch (error) {
-    observer.error(error);
-  }
-});
+// var bar = Rx.Observable.of("foo", "bar", "baz");
+var bar = Rx.Observable.fromArray(["foo", "bar", "baz"]);
 
 bar.subscribe(
   function nextValue(value) {
