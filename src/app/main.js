@@ -1,17 +1,13 @@
-var bar = Rx.Observable.create(function(observer) {
-  try {
-    observer.next("foo");
-    observer.next("baz");
-    setInterval(function() {
-      observer.next("bar");
-      observer.complete();
-    }, 3000);
-  } catch (error) {
-    observer.error(error);
-  }
+var bar = new Rx.Observable(function subscribe(observer) {
+  var id = setInterval(function() {
+    observer.next("hi");
+  }, 100);
+  return function unsubscribe() {
+    clearInterval(id);
+  };
 });
 
-bar.subscribe(
+var subscription = bar.subscribe(
   function nextValue(value) {
     console.log(value);
   },
@@ -22,3 +18,7 @@ bar.subscribe(
     console.log("done");
   }
 );
+
+setTimeout(function() {
+  subscription.unsubscribe();
+}, 4000);
