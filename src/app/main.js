@@ -4,11 +4,8 @@ var bar = Rx.Observable.create(function(observer) {
     observer.next("baz");
     setInterval(function() {
       observer.next("bar");
-    }, 1000);
-    setInterval(function() {
-      // you can NOT throw error here due to context changing
-    }, 1000);
-    throw new Error("whoops...");
+      observer.complete();
+    }, 3000);
   } catch (error) {
     observer.error(error);
   }
@@ -20,5 +17,8 @@ bar.subscribe(
   },
   function errorHandler(err) {
     console.log("error", err);
+  },
+  function completeHandler() {
+    console.log("done");
   }
 );
