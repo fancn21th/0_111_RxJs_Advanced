@@ -1,6 +1,8 @@
-var bar = Rx.Observable.interval(300).take(14);
+var bar = Rx.Observable.interval(300);
 
-var foo = bar.filter(x => x % 2 === 0);
+// var foo = bar.take(10);
+var foo = bar.first();
+var foo = bar.skip(10).take(10);
 
 foo.subscribe(
   function(val) {
