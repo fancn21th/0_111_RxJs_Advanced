@@ -1,8 +1,7 @@
-var bar = Rx.Observable.interval(300);
+var bar = Rx.Observable.interval(500).take(5);
+var more = Rx.Observable.of(5, 6, 7, 8, 9);
 
-// var foo = bar.take(10);
-// var foo = bar.first();
-var foo = bar.skip(10).take(10);
+var foo = bar.concat(more).startWith("ready ... go!");
 
 foo.subscribe(
   function(val) {
