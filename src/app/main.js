@@ -1,24 +1,22 @@
-var bar = new Rx.Observable(function subscribe(observer) {
-  var id = setInterval(function() {
-    observer.next("hi");
-  }, 100);
-  return function unsubscribe() {
-    clearInterval(id);
-  };
-});
+function subscribe(observer) {
+  observer.next("foo");
+  observer.next("bar");
+  observer.next("baz");
+  observer.complete();
+}
 
-var subscription = bar.subscribe(
-  function nextValue(value) {
+var bar = new Rx.Observable(subscribe);
+
+var observer = {
+  next: function nextValue(value) {
     console.log(value);
   },
-  function errorHandler(err) {
+  error: function errorHandler(err) {
     console.log("error", err);
   },
-  function completeHandler() {
+  complete: function completeHandler() {
     console.log("done");
   }
-);
+};
 
-setTimeout(function() {
-  subscription.unsubscribe();
-}, 4000);
+var subscription = bar.subscribe(observer);
