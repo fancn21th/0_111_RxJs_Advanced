@@ -1,22 +1,67 @@
-function subscribe(observer) {
-  observer.next("foo");
-  observer.next("bar");
-  observer.next("baz");
-  observer.complete();
-}
+var bar = Rx.Observable.of(1, 2, 3);
 
-var bar = new Rx.Observable(subscribe);
-
-var observer = {
-  next: function nextValue(value) {
-    console.log(value);
-  },
-  error: function errorHandler(err) {
-    console.log("error", err);
-  },
-  complete: function completeHandler() {
-    console.log("done");
-  }
+var multiplyByTen = function() {
+  var source = this;
+  var result = Rx.Observable.create(function(observer) {
+    source.subscribe(
+      function(x) {
+        observer.next(x * 10);
+      },
+      function(err) {
+        observer.error(err);
+      },
+      function() {
+        observer.complete();
+      }
+    );
+  });
+  return result;
 };
 
-var subscription = bar.subscribe(observer);
+var multiplyBy = function(multiplier) {
+  var source = this;
+  var result = Rx.Observable.create(function(observer) {
+    source.subscribe(
+      function(x) {
+        observer.next(x * multiplier);
+      },
+      function(err) {
+        observer.error(err);
+      },
+      function() {
+        observer.complete();
+      }
+    );
+  });
+  return result;
+};
+
+Rx.Observable.prototype.multiplyByTen = multiplyByTen;
+Rx.Observable.prototype.multiplyBy = multiplyBy;
+
+var foo = bar.multiplyByTen();
+var baz = bar.multiplyBy(100);
+
+foo.subscribe(
+  function(val) {
+    console.log("next", val);
+  },
+  function(err) {
+    console.log("error", err);
+  },
+  function() {
+    console.log("done");
+  }
+);
+
+baz.subscribe(
+  function(val) {
+    console.log("next", val);
+  },
+  function(err) {
+    console.log("error", err);
+  },
+  function() {
+    console.log("done");
+  }
+);
