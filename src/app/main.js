@@ -6,10 +6,10 @@ var baz = Rx.Observable.interval(300).take(5);
 --0--1--2--3--4               (baz)
   combineLatest(bar, baz, (x, y) => x + y
 
-----01--23-4--56--7-----8
+--0-01--21-3-24----3----4
 */
 
-var foo = Rx.Observable.combineLatest(bar, baz, (x, y) => x + y);
+var foo = Rx.Observable.merge(bar, baz);
 
 foo.subscribe(
   function(val) {
