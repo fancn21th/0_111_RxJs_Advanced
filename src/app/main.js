@@ -1,9 +1,6 @@
-var bar = Rx.Observable.interval(1000).take(4);
+var bar = Rx.Observable.interval(300).take(14);
 
-var foo = bar
-  .do(x => console.log("before", x))
-  .map(x => x * 2)
-  .do(x => console.log("after", x));
+var foo = bar.filter(x => x % 2 === 0);
 
 foo.subscribe(
   function(val) {
