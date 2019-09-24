@@ -1,4 +1,4 @@
-var bar = Rx.Observable.interval(500).take(5);
+var bar = Rx.Observable.of("H", "e", "l", "l", "o");
 var baz = Rx.Observable.interval(300).take(5);
 
 /* 
@@ -9,7 +9,9 @@ var baz = Rx.Observable.interval(300).take(5);
 ----01--23-4--56--7-----8
 */
 
-var foo = Rx.Observable.combineLatest(bar, baz, (x, y) => x + y);
+var foo = bar.withLatestFrom(baz, (c, n) =>
+  n % 2 === 0 ? c.toUppercase() : c.toLowerCase()
+);
 
 foo.subscribe(
   function(val) {
