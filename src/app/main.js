@@ -4,7 +4,7 @@ var baz = Rx.Observable.interval(300).take(5);
 /* 
 ----0----1----2----3----4     (bar)
 --0--1--2--3--4               (baz)
-  combineLatest(bar, baz, (x, y) => x + y
+  withLatestFrom(bar, baz, (x, y) => x + y
 
 ----01--23-4--56--7-----8
 */
