@@ -9,6 +9,8 @@ var baz = Rx.Observable.interval(300).take(5);
 ----01--23-4--56--7-----8
 */
 
+// c stands for character
+// n stands for number
 var foo = bar.withLatestFrom(baz, (c, n) =>
   n % 2 === 0 ? c.toUppercase() : c.toLowerCase()
 );
