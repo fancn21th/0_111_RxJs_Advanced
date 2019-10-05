@@ -1,18 +1,18 @@
 var bar = Rx.Observable.of("H", "e", "l", "l", "o");
 var baz = Rx.Observable.interval(300).take(5);
 
+// var foo = bar.zip(baz, (x, y) => x).bufferCount(2);
+
 /*
-(hello|)                          (foo)
------0-----1-----2-----3-----4|   (bar)
-       zip((x,y) => x)
------h-----e-----l-----l-----o|
-  scan((acc, x) => acc+x, '')
------h-----(he)--(hel)-(hell)(hello|)
+--(Hello)----------------------------> (bar)
+--0--1--2--3--4--------------->        (baz)
+  bar.zip(baz)
+--H--e--l--l--o-------------->
+  bufferTime(200)
+----------------------------->
 */
 
-// c stands for character
-// n stands for number
-var foo = bar.zip(baz, (x, y) => x).scan((acc, val) => acc + val, "");
+var foo = bar.zip(baz, (x, y) => x).bufferTime(200);
 
 foo.subscribe(
   function(val) {
