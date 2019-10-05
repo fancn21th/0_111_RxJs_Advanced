@@ -1,11 +1,13 @@
-var bar = Rx.Observable.interval(300).take(5);
+var fieldElem = document.getElementById("field");
+var labelElem = document.getElementById("label");
 
-// var foo = bar.delay(2000);
-// var foo = bar.delay(new Date(new Date().getTime() + 1000));
-var foo = bar.delayWhen(x => Rx.Observable.interval(x * x * 100).take(1));
+var inputText = Rx.Observable.fromEvent(fieldElem, "input")
+  .map(evt => evt.target.value)
+  .debounceTime(1000);
 
-foo.subscribe(
+inputText.subscribe(
   function(val) {
+    labelElem.textContent = val;
     console.log("next", val);
   },
   function(err) {
