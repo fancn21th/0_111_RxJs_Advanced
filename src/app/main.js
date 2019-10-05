@@ -1,13 +1,13 @@
-var labelElem = document.getElementById("label");
-var bar = Rx.Observable.of("H", "e", "l", "l", "o").zip(
-  Rx.Observable.interval(1000).take(5),
-  (x, y) => x
+var bar = Rx.Observable.interval(500).zip(
+  Rx.Observable.of("a", "b", "c", "d", 2),
+  (x, y) => y
 );
-// var foo = bar.distinct();
-var foo = bar.distinctUntilChanged();
+
+// var foo = bar.map(x => x.toUpperCase()).catch(error => Rx.Observable.empty());
+var foo = bar.map(x => x.toUpperCase()).catch(error => Rx.Observable.never());
+
 foo.subscribe(
   function(val) {
-    labelElem.textContent = val;
     console.log("next", val);
   },
   function(err) {
