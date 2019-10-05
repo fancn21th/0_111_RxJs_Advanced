@@ -1,11 +1,11 @@
-var fieldElem = document.getElementById("field");
 var labelElem = document.getElementById("label");
-
-var inputText = Rx.Observable.fromEvent(fieldElem, "input")
-  .map(evt => evt.target.value)
-  .debounceTime(1000);
-
-inputText.subscribe(
+var bar = Rx.Observable.of("H", "e", "l", "l", "o").zip(
+  Rx.Observable.interval(1000).take(5),
+  (x, y) => x
+);
+// var foo = bar.distinct();
+var foo = bar.distinctUntilChanged();
+foo.subscribe(
   function(val) {
     labelElem.textContent = val;
     console.log("next", val);
