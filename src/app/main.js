@@ -1,18 +1,8 @@
-var bar = Rx.Observable.of("H", "e", "l", "l", "o");
-var baz = Rx.Observable.interval(300).take(5);
+var bar = Rx.Observable.interval(300).take(5);
 
-// var foo = bar.zip(baz, (x, y) => x).bufferCount(2);
-
-/*
---(Hello)----------------------------> (bar)
---0--1--2--3--4--------------->        (baz)
-  bar.zip(baz)
---H--e--l--l--o-------------->
-  bufferTime(200)
------------------------------>
-*/
-
-var foo = bar.zip(baz, (x, y) => x).bufferTime(200);
+// var foo = bar.delay(2000);
+// var foo = bar.delay(new Date(new Date().getTime() + 1000));
+var foo = bar.delayWhen(x => Rx.Observable.interval(x * x * 100).take(1));
 
 foo.subscribe(
   function(val) {
