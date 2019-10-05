@@ -1,14 +1,12 @@
-var bar = Rx.Observable.interval(500).map(() => Math.random());
+var bar = Rx.Observable.interval(500).zip(
+  Rx.Observable.of("a", "b", "c", "d", "e", 2),
+  (x, y) => y
+);
 
+// var foo = bar.map(x => x.toUpperCase()).retry(2);
 var foo = bar
-  .map(x => {
-    if (x < 0.5) {
-      return x;
-    } else {
-      throw new Error("Random Number is too large");
-    }
-  })
-  .catch((err, outputObs) => outputObs);
+  .map(x => x.toUpperCase())
+  .retryWhen(errorObs => errorObs.delay(1000));
 
 foo.subscribe(
   function(val) {
